@@ -1,8 +1,10 @@
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
  
 public class RecursiveFileList {
  
@@ -37,28 +39,28 @@ public class RecursiveFileList {
                 BufferedReader reader = null;
                 if (!files[i].getAbsolutePath().contains(ignore)) {
                 	try {
-                        reader = new BufferedReader(new FileReader(files[i].getAbsolutePath()));
+                        reader = new BufferedReader(new InputStreamReader(new FileInputStream(files[i]), "UTF-16"));
                         String line = null;
-
-                        while(true)
+                        
+                        while((line = reader.readLine()) != null)
                         {
-                            line = reader.readLine();
-                            if(line == null)
-                                break;
-
-                            System.out.println(line);
+                        	String patternOpenTag = "<([^/>a-z]+)>";
+                        	String patternClosedTag = "</([^>]+)>";
+                        	
+                        	
+                        	Pattern r = Pattern.compile(patternOpenTag);
+                        	Pattern r2 = Pattern.compile(patternClosedTag);
+                        	line = reader.readLine();  
+                        	Matcher m = r.matcher(line);
+                        	Matcher m2 = r2.matcher(line);
+                                                  	 
+                            if (m.find()) {
+								System.out.println(m2.group(1));
+							}
+                          
                         }
                     }catch(Exception e) {
                         e.printStackTrace();
-                    }finally {
-                        if(reader != null)
-                        {
-                            try {
-                                reader.close();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                        }
                     }
                 }
                 
