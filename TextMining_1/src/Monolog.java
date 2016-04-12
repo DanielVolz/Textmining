@@ -59,12 +59,11 @@ public class Monolog {
 
     @Override
     public String toString() {
-        return "Monolog{" +
-                "sprecher='" + sprecher + '\'' +
-                ", monologText='" + monologText + '\'' +
+        return "Monolog " +
                 ", actName='" + actName + '\'' +
                 ", sceneName='" + sceneName + '\'' +
-                ", pfad=" + pfad +
+                "sprecher='" + sprecher + '\'' +
+                ", monologText=\n" + monologText + '\'' +
                 "}\n";
     }
 }

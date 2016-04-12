@@ -12,16 +12,22 @@ public class RecursiveFileList {
 
     public static void main(String[] args) {
         String dirToRecurse = "/Users/danielvolz/Documents/SS16/TextMining/";
-
+        Work work = null;
         RecursiveFileList rfl = new RecursiveFileList();
 
         //call function to list directory
-        rfl.fileList(new File(dirToRecurse));
+        work = rfl.fileList(new File(dirToRecurse));
+
+        for (String name: work.getSpeaker()) {
+            System.out.println(name + ": " + work.getNumberOfMonologuesBySpeaker(name) + " times, " + work.getWordsBySpeaker(name) + " words, " + work.getWordsBySpeaker(name)/work.getNumberOfMonologuesBySpeaker(name) + " words per monologue.");
+        }
+
+
     }
 
-    private void fileList(File dir) {
+    private Work fileList(File dir) {
     	String ignore = ".DS_Store";
-
+        Work work = new Work();
         StringBuilder builder = new StringBuilder();
 
         //Get list of all files and folders in directory
@@ -86,19 +92,24 @@ public class RecursiveFileList {
                     Matcher m4 = tagNamePattern.matcher(line);
                    // Matcher m5 = sprecherTextPattern.matcher(line);
 
+                    //suche nach offenen tags
                     if (m8.find() && !m8.group(1).contains("/")) {
 
 
 
+                        //wenn acttag gefunden, speicher ihn ab
                         if (m6.find()) {
                             actNameFound = m6.group(1);
                             i++;
                             //System.out.println("Actname "+ i +" gefunden " + actNameFound);
+
+                        //wenn scenetag gefunden speicher ihn ab
                         } else if (m7.find()) {
                             sceneNameFound = m7.group(1);
                             j++;
                             //System.out.println("Scenenname "+j+" gefunden " + sceneNameFound);
 
+                        //Wenn sprecher tag gefunden speicher ihn ab
                         } else if (m4.find()) {
                             sprecherTagFound = m4.group(2);
                             k++;
@@ -106,26 +117,30 @@ public class RecursiveFileList {
                         }
 
 
-
+                    //suche nach tabulatoren am anfang des textes, wenn gedunfen speicher sie im stringbuffer
                     } else if(line.startsWith("\t")) {
                         tmp.append(line.replaceFirst("\t", "")).append("\n");
 
-                    } else if (m4.find() && m4.group(1).contains("/")) {
+                    //wenn close tag gefunden, dann dialog zu ende. speicher alle infos der szene in Monolog
+                    } else if (m4.find() && m4.group(1).contains("/") && !m4.group(0).contains("ACT") && !m4.group(0).contains("SCENE")) {
                        // System.out.println("act= "+ actNameFound+" scene="+sceneNameFound+" sprecher="+sprecherTagFound+" text =" +tmp);
                         Monolog mon = new Monolog();
                         mon.setSprecher(sprecherTagFound);
                         mon.setSceneName(sceneNameFound);
                         mon.setActName(actNameFound);
                         mon.setMonologText(tmp.toString());
-                        col.add(mon);
+                        //col.add(mon);
+                        work.add(mon);
                         tmp.setLength(0);
 
 
                     }
-                    System.out.println(col);
-                }
 
+                }
+                //System.out.println(col);
             }
         }
+        return work;
     }
+
 }
