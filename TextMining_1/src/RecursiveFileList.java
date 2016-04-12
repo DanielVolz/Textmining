@@ -10,22 +10,7 @@ import java.util.regex.Pattern;
 
 public class RecursiveFileList {
 
-    public static void main(String[] args) {
-        String dirToRecurse = "/Users/danielvolz/Documents/SS16/TextMining/";
-        Work work = null;
-        RecursiveFileList rfl = new RecursiveFileList();
-
-        //call function to list directory
-        work = rfl.fileList(new File(dirToRecurse));
-
-        for (String name: work.getSpeaker()) {
-            System.out.println(name + ": " + work.getNumberOfMonologuesBySpeaker(name) + " times, " + work.getWordsBySpeaker(name) + " words, " + work.getWordsBySpeaker(name)/work.getNumberOfMonologuesBySpeaker(name) + " words per monologue.");
-        }
-
-
-    }
-
-    private Work fileList(File dir) {
+    public Work fileList(File dir) {
     	String ignore = ".DS_Store";
         Work work = new Work();
         StringBuilder builder = new StringBuilder();

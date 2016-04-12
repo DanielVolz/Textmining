@@ -38,9 +38,7 @@ public class Work {
 
     public void add(Monolog m) {
         monologues.add(m);
-        if (bySpeaker.get(m.getSprecher())==null) {
-            bySpeaker.put(m.getSprecher(), new ArrayList<Monolog>());
-        }
+        bySpeaker.putIfAbsent(m.getSprecher(), new ArrayList<>());
         bySpeaker.get(m.getSprecher()).add(m);
     }
 
