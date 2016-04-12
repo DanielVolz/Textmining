@@ -60,44 +60,49 @@ public class RecursiveFileList {
                 ganzerText = m3.replaceAll("\t");
 
                 StringBuffer tmp = new StringBuffer();
-                Monolog mon = new Monolog();
+                //Monolog mon = new Monolog();
                 ArrayList<Monolog> col = new ArrayList<>();
-
+                int i = 0,j=0,k=0,l = 0;
+                String actNameFound="";
+                String sceneNameFound="";
+                String sprecherTagFound="";
                 for (String line : ganzerText.split("\n")) {
                     String actName = "<(\\bACT\\b.+)>";
                     String sceneName = "<(\\bSCENE\\b.+)>";
                     String tagName = "<(/?)([A-Z.\\s\\d]+)>";
-                    String sprechertext = "(\\t.[A-Za-z].+)";
+                    //String sprechertext = "(\\t.[A-Za-z].+)";
 
 
 
                     Pattern actNamePattern = Pattern.compile(actName);
                     Pattern sceneNamePattern = Pattern.compile(sceneName);
                     Pattern tagNamePattern = Pattern.compile(tagName);
-                    Pattern sprecherTextPattern = Pattern.compile(sprechertext);
+                    //Pattern sprecherTextPattern = Pattern.compile(sprechertext);
                     Pattern r = Pattern.compile("^<(/?)([^/>a-z]+)>");
 
                     Matcher m8 = r.matcher(line);
                     Matcher m6 = actNamePattern.matcher(line);
                     Matcher m7 = sceneNamePattern.matcher(line);
                     Matcher m4 = tagNamePattern.matcher(line);
-                    Matcher m5 = sprecherTextPattern.matcher(line);
+                   // Matcher m5 = sprecherTextPattern.matcher(line);
 
                     if (m8.find() && !m8.group(1).contains("/")) {
-                        //System.out.println(m8.group(0));
 
 
 
                         if (m6.find()) {
-                            String actNameFound = m6.group(1);
-                            System.out.println("Actname gefunden " + actNameFound);
+                            actNameFound = m6.group(1);
+                            i++;
+                            //System.out.println("Actname "+ i +" gefunden " + actNameFound);
                         } else if (m7.find()) {
-                            String sceneNameFound = m7.group(1);
-                            System.out.println("Scenenname gefunden " + sceneNameFound);
+                            sceneNameFound = m7.group(1);
+                            j++;
+                            //System.out.println("Scenenname "+j+" gefunden " + sceneNameFound);
 
                         } else if (m4.find()) {
-                            String sprecherTagFound = m4.group(2);
-                            System.out.println("Sprecher gefunden " + sprecherTagFound);
+                            sprecherTagFound = m4.group(2);
+                            k++;
+                            //System.out.println("Sprecher "+k+" gefunden " + sprecherTagFound);
                         }
 
 
@@ -106,12 +111,18 @@ public class RecursiveFileList {
                         tmp.append(line.replaceFirst("\t", "")).append("\n");
 
                     } else if (m4.find() && m4.group(1).contains("/")) {
-                            System.out.println(tmp);
-                            tmp.setLength(0);
+                       // System.out.println("act= "+ actNameFound+" scene="+sceneNameFound+" sprecher="+sprecherTagFound+" text =" +tmp);
+                        Monolog mon = new Monolog();
+                        mon.setSprecher(sprecherTagFound);
+                        mon.setSceneName(sceneNameFound);
+                        mon.setActName(actNameFound);
+                        mon.setMonologText(tmp.toString());
+                        col.add(mon);
+                        tmp.setLength(0);
 
 
                     }
-
+                    System.out.println(col);
                 }
 
             }
