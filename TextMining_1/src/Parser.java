@@ -2,7 +2,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -10,17 +9,12 @@ import java.util.regex.Pattern;
 
 public class Parser {
 
-
     public Work readFile(File file) {
         String ignore = ".DS_Store";
 
         Work work = new Work();
         StringBuilder builder = new StringBuilder();
         Map<String, Speaker> speakers = new HashMap<>();
-
-
-        //If not directory, print the file path
-        //System.out.println(file.getAbsolutePath());
 
         if (!file.getAbsolutePath().contains(ignore)) {
             try {
@@ -45,9 +39,6 @@ public class Parser {
         ganzerText = m3.replaceAll("\t");
 
         StringBuffer tmp = new StringBuffer();
-        //Monolog mon = new Monolog();
-        ArrayList<Monolog> col = new ArrayList<>();
-        int i = 0,j=0,k=0,l = 0;
         String actNameFound="";
         String sceneNameFound="";
         String sprecherTagFound="";
@@ -57,8 +48,6 @@ public class Parser {
             String sceneName = "<(\\bSCENE\\b.+)>";
             String tagName = "<(/?)([A-Z.\\s\\d]+)>";
             //String sprechertext = "(\\t.[A-Za-z].+)";
-
-
 
             Pattern actNamePattern = Pattern.compile(actName);
             Pattern sceneNamePattern = Pattern.compile(sceneName);
@@ -76,24 +65,17 @@ public class Parser {
             if (m8.find() && !m8.group(1).contains("/")) {
 
 
-
                 //wenn acttag gefunden, speicher ihn ab
                 if (m6.find()) {
                     actNameFound = m6.group(1);
-                    i++;
-                    //System.out.println("Actname "+ i +" gefunden " + actNameFound);
 
                     //wenn scenetag gefunden speicher ihn ab
                 } else if (m7.find()) {
                     sceneNameFound = m7.group(1);
-                    j++;
-                    //System.out.println("Scenenname "+j+" gefunden " + sceneNameFound);
 
                     //Wenn sprecher tag gefunden speicher ihn ab
                 } else if (m4.find()) {
                     sprecherTagFound = m4.group(2);
-                    k++;
-                    //System.out.println("Sprecher "+k+" gefunden " + sprecherTagFound);
                 }
 
 
