@@ -20,10 +20,11 @@ public class Parser {
 
 
         //If not directory, print the file path
-        System.out.println(file.getAbsolutePath());
+        //System.out.println(file.getAbsolutePath());
 
         if (!file.getAbsolutePath().contains(ignore)) {
             try {
+                System.out.println(file);
                 BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), "UTF-16"));
                 String line;
 
@@ -131,14 +132,16 @@ public class Parser {
         File[] files = dir.listFiles();
 
         //For all files and folders in directory
-        assert files != null;
         for (File file : files) {
             //Check if directory
             if (file.isDirectory())
                 //Recursively call file list function on the new directory
-                readFiles(file);
+
+                //WIE FUNTIONIERT DAS???????????????????????????????????????
+
+                allwork.addAll(readFiles(file));
             else {
-                allwork.add(readFile(dir));
+                allwork.add(readFile(file));
             }
         }
        return allwork;

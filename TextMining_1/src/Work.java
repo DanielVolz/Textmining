@@ -18,10 +18,6 @@ public class Work {
     private List<Monolog> monologues = new ArrayList<>();
     private Map<Speaker, List<Monolog>> bySpeaker = new HashMap<>();
 
-    public Work() {
-    }
-
-
 
     public List<Speaker> getSpeaker() {
         List<Speaker> res = new ArrayList<>();

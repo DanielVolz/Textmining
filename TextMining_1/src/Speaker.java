@@ -20,6 +20,10 @@ public class Speaker {
         return work.getNumberOfMonologuesBySpeaker(this);
     }
 
+    public int getNurmberOfWords() {
+        return work.getWordsBySpeaker(this);
+    }
+
     public void setName(String name) {
         this.name = name;
     }
