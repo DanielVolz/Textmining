@@ -16,16 +16,16 @@ public class Speaker {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public int getNumberOfMonologues() {
         return work.getNumberOfMonologuesBySpeaker(this);
     }
 
     public int getNurmberOfWords() {
         return work.getWordsBySpeaker(this);
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public Work getWork() {

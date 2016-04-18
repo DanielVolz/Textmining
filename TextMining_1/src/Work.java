@@ -4,11 +4,7 @@
  * and open the template in the editor.
  */
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  *
@@ -17,6 +13,30 @@ import java.util.Map;
 public class Work {
     private List<Monolog> monologues = new ArrayList<>();
     private Map<Speaker, List<Monolog>> bySpeaker = new HashMap<>();
+
+
+    public List<Monolog> getMonologsByScene(String scene) {
+        List<Monolog> res = new ArrayList<>();
+
+        for (Monolog m : monologues
+                ) {
+            if (m.getSceneName() == scene)
+                res.add(m);
+        }
+
+        return res;
+    }
+
+    public List<Monolog> getMonologuesBySceneAndSpeaker(String scene, Speaker speaker) {
+        List<Monolog> res = new ArrayList<>();
+        for (Monolog m : monologues
+                ) {
+            if (m.getSceneName() == scene && m.getSceneName().equals(speaker))
+                res.add(m);
+        }
+
+        return res;
+    }
 
 
     public List<Speaker> getSpeaker() {
@@ -47,4 +67,5 @@ public class Work {
         return bySpeaker.get(speaker).size();
     }
 
+    // public Speaker
 }

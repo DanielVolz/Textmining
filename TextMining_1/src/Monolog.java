@@ -1,5 +1,3 @@
-import java.util.List;
-
 /**
  * Created by danielvolz on 11.04.16.
  */
@@ -10,7 +8,7 @@ public class Monolog {
     private String monologText;
     private String actName;
     private String sceneName;
-    private List<String> pfad;
+
 
     public String getActName() {
         return actName;
@@ -35,15 +33,6 @@ public class Monolog {
     public void setMonologText(String monologText) {
         this.monologText = monologText;
     }
-
-    public List<String> getPfad() {
-        return pfad;
-    }
-
-    public void setPfad(List<String> pfad) {
-        this.pfad = pfad;
-    }
-
 
     public Speaker getSprecher() {
         return sprecher;
