@@ -8,7 +8,7 @@ public class Run {
     public static void main(String[] args) {
         String dirToRecurse = "/Users/danielvolz/Documents/SS16/TextMining/";
         Work work = null;
-        RecursiveFileList rfl = new RecursiveFileList();
+        Parser rfl = new Parser();
 
         //call function to list directory
         work = rfl.fileList(new File(dirToRecurse));

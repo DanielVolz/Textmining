@@ -6,7 +6,6 @@
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,22 +16,20 @@ import java.util.Map;
  */
 public class Work {
     private List<Monolog> monologues = new ArrayList<>();
-    private Map<String, List<Monolog>> bySpeaker = new HashMap<>();
+    private Map<Speaker, List<Monolog>> bySpeaker = new HashMap<>();
 
     public Work() {
     }
 
-    public List<String> getSpeaker() {
-        List<String> res = new ArrayList<>();
-        for (String name: bySpeaker.keySet()) {
-            res.add(name);
-        }
-        Collections.sort(res, new Comparator<String>(){
-            @Override
-            public int compare(String name1, String name2) {
-                return bySpeaker.get(name2).size() - bySpeaker.get(name1).size();
-            }
-        });
+
+
+    public List<Speaker> getSpeaker() {
+        List<Speaker> res = new ArrayList<>();
+        res.addAll(bySpeaker.keySet());
+
+        Collections.sort(res,
+                (name1, name2) -> bySpeaker.get(name2).size() - bySpeaker.get(name1).size()
+        );
         return res;
     }
 
@@ -42,16 +39,16 @@ public class Work {
         bySpeaker.get(m.getSprecher()).add(m);
     }
 
-    public int getWordsBySpeaker(String name) {
+    public int getWordsBySpeaker(Speaker speaker) {
         int sum = 0;
-        for (Monolog m: bySpeaker.get(name)) {
+        for (Monolog m: bySpeaker.get(speaker)) {
             sum += m.getMonologText().split(" ").length;
         }
         return sum;
     }
 
-    public int getNumberOfMonologuesBySpeaker(String name) {
-        return bySpeaker.get(name).size();
+    public int getNumberOfMonologuesBySpeaker(Speaker speaker) {
+        return bySpeaker.get(speaker).size();
     }
 
 }

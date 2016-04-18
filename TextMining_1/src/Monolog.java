@@ -6,7 +6,7 @@ import java.util.List;
 public class Monolog {
 
 
-    private String sprecher;
+    private Speaker sprecher;
     private String monologText;
     private String actName;
     private String sceneName;
@@ -49,11 +49,11 @@ public class Monolog {
     }
 
 
-    public String getSprecher() {
+    public Speaker getSprecher() {
         return sprecher;
     }
 
-    public void setSprecher(String sprecher) {
+    public void setSprecher(Speaker sprecher) {
         this.sprecher = sprecher;
     }
 

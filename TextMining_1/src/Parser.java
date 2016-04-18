@@ -5,15 +5,17 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class RecursiveFileList {
+public class Parser {
 
     public Work fileList(File dir) {
     	String ignore = ".DS_Store";
-        Work work = new Work();
+        AllWorks work = new AllWorks();
         StringBuilder builder = new StringBuilder();
+        Map<String, Speaker> speakers = new HashMap<>();
 
         //Get list of all files and folders in directory
         File[] files = dir.listFiles();
@@ -110,7 +112,10 @@ public class RecursiveFileList {
                     } else if (m4.find() && m4.group(1).contains("/") && !m4.group(0).contains("ACT") && !m4.group(0).contains("SCENE")) {
                        // System.out.println("act= "+ actNameFound+" scene="+sceneNameFound+" sprecher="+sprecherTagFound+" text =" +tmp);
                         Monolog mon = new Monolog();
-                        mon.setSprecher(sprecherTagFound);
+
+                        speakers.putIfAbsent(sprecherTagFound, new Speaker(sprecherTagFound, work));
+                        mon.setSprecher(speakers.get(sprecherTagFound));
+
                         mon.setSceneName(sceneNameFound);
                         mon.setActName(actNameFound);
                         mon.setMonologText(tmp.toString());
