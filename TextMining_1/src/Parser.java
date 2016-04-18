@@ -79,13 +79,13 @@ public class Parser {
                 }
 
 
-                //suche nach tabulatoren am anfang des textes, wenn gedunfen speicher sie im stringbuffer
+                //suche nach tabulatoren am anfang des textes = text des sprechers. wenn gefunden speicher sie im stringbuffer
             } else if(line.startsWith("\t")) {
                 tmp.append(line.replaceFirst("\t", "")).append("\n");
 
                 //wenn close tag gefunden, dann dialog zu ende. speicher alle infos der szene in Monolog
             } else if (m4.find() && m4.group(1).contains("/") && !m4.group(0).contains("ACT") && !m4.group(0).contains("SCENE")) {
-                // System.out.println("act= "+ actNameFound+" scene="+sceneNameFound+" sprecher="+sprecherTagFound+" text =" +tmp);
+
                 Monolog mon = new Monolog();
 
                 speakers.putIfAbsent(sprecherTagFound, new Speaker(sprecherTagFound, work));
@@ -94,7 +94,7 @@ public class Parser {
                 mon.setSceneName(sceneNameFound);
                 mon.setActName(actNameFound);
                 mon.setMonologText(tmp.toString());
-                //col.add(mon);
+
                 work.add(mon);
                 tmp.setLength(0);
 

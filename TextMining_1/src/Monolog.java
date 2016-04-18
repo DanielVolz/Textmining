@@ -12,10 +12,6 @@ public class Monolog {
     private String sceneName;
     private List<String> pfad;
 
-    public Monolog(){
-
-    }
-
     public String getActName() {
         return actName;
     }
