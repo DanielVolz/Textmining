@@ -13,9 +13,13 @@ public class Run {
 
         //call function to list directory
         allWorks = p.readFiles(dir);
+//
+//        for (Speaker speaker: allWorks.getAllSpeakers()) {
+//            System.out.println(speaker.getName() + ": " + speaker.getNumberOfMonologues() + " times, " + speaker.getNurmberOfWords() + " words, " + speaker.getNurmberOfWords()/speaker.getNumberOfMonologues() + " words per monologue.");
+//        }
 
-        for (Speaker speaker: allWorks.getAllSpeakers()) {
-            System.out.println(speaker.getName() + ": " + speaker.getNumberOfMonologues() + " times, " + speaker.getNurmberOfWords() + " words, " + speaker.getNurmberOfWords()/speaker.getNumberOfMonologues() + " words per monologue.");
+        for (Work w : allWorks.getAll()) {
+            System.out.println(w.getMonologuesBySceneAndSpeaker("SCENE 2", "KATHARINE") + "\n");
         }
 
 

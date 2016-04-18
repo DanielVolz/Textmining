@@ -11,9 +11,18 @@ import java.util.*;
  * @author kai
  */
 public class Work {
+
+    private String workName = "";
     private List<Monolog> monologues = new ArrayList<>();
     private Map<Speaker, List<Monolog>> bySpeaker = new HashMap<>();
 
+    public String getWorkName() {
+        return workName;
+    }
+
+    public void setWorkName(String workName) {
+        this.workName = workName;
+    }
 
     public List<Monolog> getMonologsByScene(String scene) {
         List<Monolog> res = new ArrayList<>();
@@ -27,11 +36,11 @@ public class Work {
         return res;
     }
 
-    public List<Monolog> getMonologuesBySceneAndSpeaker(String scene, Speaker speaker) {
+    public List<Monolog> getMonologuesBySceneAndSpeaker(String scene, String speaker) {
         List<Monolog> res = new ArrayList<>();
         for (Monolog m : monologues
                 ) {
-            if (m.getSceneName() == scene && m.getSceneName().equals(speaker))
+            if (m.getSceneName().equals(scene) && m.getSprecher().getName().equals(speaker))
                 res.add(m);
         }
 
@@ -65,6 +74,13 @@ public class Work {
 
     public int getNumberOfMonologuesBySpeaker(Speaker speaker) {
         return bySpeaker.get(speaker).size();
+    }
+
+    @Override
+    public String toString() {
+        return "Work{" +
+                "workName='" + workName + '\'' +
+                '}';
     }
 
     // public Speaker

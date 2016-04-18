@@ -42,25 +42,33 @@ public class Parser {
         String actNameFound="";
         String sceneNameFound="";
         String sprecherTagFound="";
+        String workNameFound = "";
         for (String line : ganzerText.split("\n")) {
 
+            String workName = "<\\s[A-z]+\\s--\\s([A-Z\\s]+)>";
             String actName = "<(\\bACT\\b.+)>";
             String sceneName = "<(\\bSCENE\\b.+)>";
             String tagName = "<(/?)([A-Z.\\s\\d]+)>";
             //String sprechertext = "(\\t.[A-Za-z].+)";
 
+            Pattern workNamePattern = Pattern.compile(workName);
             Pattern actNamePattern = Pattern.compile(actName);
             Pattern sceneNamePattern = Pattern.compile(sceneName);
             Pattern tagNamePattern = Pattern.compile(tagName);
             //Pattern sprecherTextPattern = Pattern.compile(sprechertext);
             Pattern r = Pattern.compile("^<(/?)([^/>a-z]+)>");
 
+            Matcher m9 = workNamePattern.matcher(line);
             Matcher m8 = r.matcher(line);
             Matcher m6 = actNamePattern.matcher(line);
             Matcher m7 = sceneNamePattern.matcher(line);
             Matcher m4 = tagNamePattern.matcher(line);
             // Matcher m5 = sprecherTextPattern.matcher(line);
 
+            if (m9.find()) {
+                workNameFound = m9.group(1);
+                System.out.println(workNameFound);
+            }
             //suche nach offenen tags
             if (m8.find() && !m8.group(1).contains("/")) {
 
@@ -94,7 +102,7 @@ public class Parser {
                 mon.setSceneName(sceneNameFound);
                 mon.setActName(actNameFound);
                 mon.setMonologText(tmp.toString());
-
+                work.setWorkName(workNameFound);
                 work.add(mon);
                 tmp.setLength(0);
 
