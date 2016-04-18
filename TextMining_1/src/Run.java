@@ -6,14 +6,15 @@ import java.io.File;
 public class Run {
 
     public static void main(String[] args) {
-        String dirToRecurse = "/Users/danielvolz/Documents/SS16/TextMining/";
-        Work work = null;
-        Parser rfl = new Parser();
+        File dir = new File("/Users/danielvolz/Documents/SS16/TextMining/");
+
+        AllWorks allWorks = new AllWorks();
+        Parser p = new Parser();
 
         //call function to list directory
-        work = rfl.fileList(new File(dirToRecurse));
+        allWorks = p.readFiles(dir);
 
-        for (String name: work.getSpeaker()) {
+        for (Speaker speaker: allWorks.) {
             System.out.println(name + ": " + work.getNumberOfMonologuesBySpeaker(name) + " times, " + work.getWordsBySpeaker(name) + " words, " + work.getWordsBySpeaker(name)/work.getNumberOfMonologuesBySpeaker(name) + " words per monologue.");
         }
 

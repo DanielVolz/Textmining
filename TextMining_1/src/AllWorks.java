@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -19,5 +20,16 @@ public class AllWorks {
 
     public void addAll(AllWorks aw) {
         works.addAll(aw.getAll());
+    }
+
+    public List<Speaker> getAllSpeakers() {
+        List<Speaker> res = new ArrayList<>();
+        for (Work w: works) {
+            res.addAll(w.getSpeaker());
+        }
+        Collections.sort(res, (speaker1, speaker2)
+                -> speaker1.getNumberOfMonologues() - speaker2.getNumberOfMonologues()
+        );
+        return res;
     }
 }
