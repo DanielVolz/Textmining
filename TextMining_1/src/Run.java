@@ -19,7 +19,7 @@ public class Run {
 //        }
 
         for (Work w : allWorks.getAll()) {
-            System.out.println(w.getMonologuesBySceneAndSpeaker("SCENE 2", "KATHARINE") + "\n");
+            System.out.println(w.getMonologuesByScene(2, 1) + "\n");
         }
 
 

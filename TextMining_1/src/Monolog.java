@@ -8,7 +8,24 @@ public class Monolog {
     private String monologText;
     private String actName;
     private String sceneName;
+    private int actNumber;
+    private int sceneNumber;
 
+    public int getActNumber() {
+        return actNumber;
+    }
+
+    public void setActNumber(int actNumber) {
+        this.actNumber = actNumber;
+    }
+
+    public int getSceneNumber() {
+        return sceneNumber;
+    }
+
+    public void setSceneNumber(int sceneNumber) {
+        this.sceneNumber = sceneNumber;
+    }
 
     public String getActName() {
         return actName;

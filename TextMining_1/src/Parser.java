@@ -16,9 +16,17 @@ public class Parser {
         StringBuilder builder = new StringBuilder();
         Map<String, Speaker> speakers = new HashMap<>();
 
+        String actName = null;
+        String sceneName = null;
+        String sprecherTag = null;
+        String workName = null;
+
+        int scene = 0;
+        int act = 0;
+
         if (!file.getAbsolutePath().contains(ignore)) {
             try {
-                System.out.println(file);
+                //System.out.println(file);
                 BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), "UTF-16"));
                 String line;
 
@@ -39,22 +47,19 @@ public class Parser {
         ganzerText = m3.replaceAll("\t");
 
         StringBuffer tmp = new StringBuffer();
-        String actNameFound="";
-        String sceneNameFound="";
-        String sprecherTagFound="";
-        String workNameFound = "";
+
         for (String line : ganzerText.split("\n")) {
 
-            String workName = "<\\s[A-z]+\\s--\\s([A-Z\\s]+)>";
-            String actName = "<(\\bACT\\b.+)>";
-            String sceneName = "<(\\bSCENE\\b.+)>";
-            String tagName = "<(/?)([A-Z.\\s\\d]+)>";
+            String workNameReg = "<\\s[A-z]+\\s--\\s([A-Z\\s]+)>";
+            String actNameReg = "<(\\bACT\\b.+)>";
+            String sceneNameReg = "<((\\bSCENE\\b)\\s(.+))>";
+            String tagNameReg = "<(/?)([A-Z.\\s\\d]+)>";
             //String sprechertext = "(\\t.[A-Za-z].+)";
 
-            Pattern workNamePattern = Pattern.compile(workName);
-            Pattern actNamePattern = Pattern.compile(actName);
-            Pattern sceneNamePattern = Pattern.compile(sceneName);
-            Pattern tagNamePattern = Pattern.compile(tagName);
+            Pattern workNamePattern = Pattern.compile(workNameReg);
+            Pattern actNamePattern = Pattern.compile(actNameReg);
+            Pattern sceneNamePattern = Pattern.compile(sceneNameReg);
+            Pattern tagNamePattern = Pattern.compile(tagNameReg);
             //Pattern sprecherTextPattern = Pattern.compile(sprechertext);
             Pattern r = Pattern.compile("^<(/?)([^/>a-z]+)>");
 
@@ -66,8 +71,7 @@ public class Parser {
             // Matcher m5 = sprecherTextPattern.matcher(line);
 
             if (m9.find()) {
-                workNameFound = m9.group(1);
-                System.out.println(workNameFound);
+                workName = m9.group(1);
             }
             //suche nach offenen tags
             if (m8.find() && !m8.group(1).contains("/")) {
@@ -75,47 +79,49 @@ public class Parser {
 
                 //wenn acttag gefunden, speicher ihn ab
                 if (m6.find()) {
-                    actNameFound = m6.group(1);
+                    actName = m6.group(1);
+                    act++;
 
                     //wenn scenetag gefunden speicher ihn ab
                 } else if (m7.find()) {
-                    sceneNameFound = m7.group(1);
+                    sceneName = m7.group(1);
+                    scene = Integer.parseInt(m7.group(3));
 
                     //Wenn sprecher tag gefunden speicher ihn ab
                 } else if (m4.find()) {
-                    sprecherTagFound = m4.group(2);
+                    sprecherTag = m4.group(2);
                 }
 
 
                 //suche nach tabulatoren am anfang des textes = text des sprechers. wenn gefunden speicher sie im stringbuffer
-            } else if(line.startsWith("\t")) {
+            } else if (line.startsWith("\t")) {
                 tmp.append(line.replaceFirst("\t", "")).append("\n");
 
-                //wenn close tag gefunden, dann dialog zu ende. speicher alle infos der szene in Monolog
+                //wenn close tag gefunden und es kein act oder szene endtag ist, dann dialog zu ende. speicher alle infos der szene in Monolog
             } else if (m4.find() && m4.group(1).contains("/") && !m4.group(0).contains("ACT") && !m4.group(0).contains("SCENE")) {
 
                 Monolog mon = new Monolog();
 
-                speakers.putIfAbsent(sprecherTagFound, new Speaker(sprecherTagFound, work));
-                mon.setSprecher(speakers.get(sprecherTagFound));
+                speakers.putIfAbsent(sprecherTag, new Speaker(sprecherTag, work));
+                mon.setSprecher(speakers.get(sprecherTag));
 
-                mon.setSceneName(sceneNameFound);
-                mon.setActName(actNameFound);
+                mon.setSceneName(sceneName);
+                mon.setSceneNumber(scene);
+                mon.setActName(actName);
+                mon.setActNumber(act);
                 mon.setMonologText(tmp.toString());
-                work.setWorkName(workNameFound);
+                work.setWorkName(workName);
                 work.add(mon);
                 tmp.setLength(0);
-
-
             }
 
         }
 
-    return work;
-}
+        return work;
+    }
 
     public AllWorks readFiles(File dir) {
-    	String ignore = ".DS_Store";
+        String ignore = ".DS_Store";
         AllWorks allwork = new AllWorks();
 
         //Get list of all files and folders in directory
@@ -124,17 +130,25 @@ public class Parser {
         //For all files and folders in directory
         for (File file : files) {
             //Check if directory
-            if (file.isDirectory())
+            if (file.isDirectory()) {
+
                 //Recursively call file list function on the new directory
 
                 //WIE FUNTIONIERT DAS???????????????????????????????????????
+                System.out.printf(file.getName());
 
-                allwork.addAll(readFiles(file));
+
+                //ignoriere test ordner
+                if (!file.getName().contains("test")) {
+                    allwork.addAll(readFiles(file));
+                }
+
+            }
             else {
                 allwork.add(readFile(file));
             }
         }
-       return allwork;
+        return allwork;
     }
 
 }

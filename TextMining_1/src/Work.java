@@ -24,23 +24,57 @@ public class Work {
         this.workName = workName;
     }
 
-    public List<Monolog> getMonologsByScene(String scene) {
+    public List<Monolog> getMonologuesByScene(int act, int scene) {
         List<Monolog> res = new ArrayList<>();
-
         for (Monolog m : monologues
                 ) {
-            if (m.getSceneName() == scene)
+            if (m.getActNumber() == act && m.getSceneNumber() == scene)
                 res.add(m);
         }
 
         return res;
     }
 
-    public List<Monolog> getMonologuesBySceneAndSpeaker(String scene, String speaker) {
+
+    public List<Monolog> getMonologuesByScene(String scene) {
         List<Monolog> res = new ArrayList<>();
         for (Monolog m : monologues
                 ) {
-            if (m.getSceneName().equals(scene) && m.getSprecher().getName().equals(speaker))
+            if (m.getSceneName().equals(scene))
+                res.add(m);
+        }
+
+        return res;
+    }
+
+    public List<Monolog> getMonologuesByScene(int scene) {
+        List<Monolog> res = new ArrayList<>();
+        for (Monolog m : monologues
+                ) {
+            if (m.getSceneNumber() == scene)
+                res.add(m);
+        }
+
+        return res;
+    }
+
+
+    public List<Monolog> getMonologuesByAct(String act) {
+        List<Monolog> res = new ArrayList<>();
+        for (Monolog m : monologues
+                ) {
+            if (m.getActName().equals(act))
+                res.add(m);
+        }
+
+        return res;
+    }
+
+    public List<Monolog> getMonologuesByAct(int act) {
+        List<Monolog> res = new ArrayList<>();
+        for (Monolog m : monologues
+                ) {
+            if (m.getActNumber() == act)
                 res.add(m);
         }
 
@@ -83,5 +117,5 @@ public class Work {
                 '}';
     }
 
-    // public Speaker
+
 }
