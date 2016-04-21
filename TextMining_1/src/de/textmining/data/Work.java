@@ -53,10 +53,10 @@ public class Work {
         int sum = 0;
         ArrayList<Scene> tmp = new ArrayList<>();
         for (Act a : acts) {
-            tmp = a.getScene();
-            for (Scene s : tmp
+
+            for (Scene s : a.getScene()
                     ) {
-                sum = +s.getNumberOfMonologuesBySpeaker(speaker);
+                sum += s.getNumberOfMonologuesBySpeaker(speaker);
             }
         }
         return sum;

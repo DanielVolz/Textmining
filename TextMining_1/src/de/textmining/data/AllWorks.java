@@ -20,6 +20,7 @@ public class AllWorks {
         works.add(work);
     }
 
+
     public void addAll(AllWorks aw) {
         works.addAll(aw.getAll());
     }

@@ -63,8 +63,8 @@ public class Scene {
 
     @Override
     public String toString() {
-        return "de.textmining.data.Work{" +
-                "workName='" + sceneName + '\'' +
+        return "szene{" +
+                "szeneName='" + sceneName + '\'' +
                 '}';
     }
 

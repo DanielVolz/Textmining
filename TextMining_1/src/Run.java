@@ -17,14 +17,21 @@ public class Run {
         //call function to list directory
         allWorks = p.readFiles(dir);
 
-        for (Speaker speaker : allWorks.getAllSpeakers()) {
-            System.out.println(speaker.getName() + ": " + speaker.getNumberOfMonologues() + " times, " + speaker.getNurmberOfWords() + " words, " + speaker.getNurmberOfWords() / speaker.getNumberOfMonologues() + " words per monologue.");
+        for (Speaker s : allWorks.getAllSpeakers()
+                ) {
+            //System.out.println(s);
         }
+        }
+
+
+//        for (Speaker speaker : allWorks.getAllSpeakers()) {
+//            System.out.println(speaker.getName() + ": " + speaker.getNumberOfMonologues() + " times, " + speaker.getNurmberOfWords() + " words, " + speaker.getNurmberOfWords() / speaker.getNumberOfMonologues() + " words per monologue.");
+//        }
 
 //        for (de.textmining.data.Work w : allWorks.getAll()) {
 //            System.out.println(w.getMonologuesByScene(1, 1) + "\n");
 //        }
 
 
-    }
 }
+

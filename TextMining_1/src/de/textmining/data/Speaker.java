@@ -4,6 +4,8 @@ package de.textmining.data;
  * Created by danielvolz on 14.04.16.
  */
 public class Speaker {
+
+    //TODO: anstatt scene muss der speaker ein work bekommen, damit es funkioniert (glaube ich mal)
     private String name;
     private Scene scene;
 
@@ -39,9 +41,9 @@ public class Speaker {
     }
     @Override
     public String toString() {
-        return "de.textmining.data.Speaker{" +
+        return "Speaker{" +
                 "name='" + name + '\'' +
-                ", work=" + scene +
+                ", scene=" + scene +
                 '}';
     }
 }
