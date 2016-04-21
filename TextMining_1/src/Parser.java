@@ -1,3 +1,5 @@
+import de.textmining.data.*;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -13,6 +15,7 @@ public class Parser {
         String ignore = ".DS_Store";
 
         Work work = new Work();
+
         StringBuilder builder = new StringBuilder();
         Map<String, Speaker> speakers = new HashMap<>();
 
@@ -47,7 +50,8 @@ public class Parser {
         ganzerText = m3.replaceAll("\t");
 
         StringBuffer tmp = new StringBuffer();
-
+        Scene sceneObject = null;
+        Act actObject = null;
         for (String line : ganzerText.split("\n")) {
 
             String workNameReg = "<\\s[A-z]+\\s--\\s([A-Z\\s]+)>";
@@ -70,49 +74,75 @@ public class Parser {
             Matcher m4 = tagNamePattern.matcher(line);
             // Matcher m5 = sprecherTextPattern.matcher(line);
 
+
             if (m9.find()) {
                 workName = m9.group(1);
             }
             //suche nach offenen tags
             if (m8.find() && !m8.group(1).contains("/")) {
 
-
+                System.out.println("offenen Tag gefunden");
                 //wenn acttag gefunden, speicher ihn ab
                 if (m6.find()) {
                     actName = m6.group(1);
                     act++;
-
+                    actObject = new Act();
+                    actObject.setActName(actName);
+                    System.out.println("act Tag gefunden");
                     //wenn scenetag gefunden speicher ihn ab
                 } else if (m7.find()) {
                     sceneName = m7.group(1);
                     scene = Integer.parseInt(m7.group(3));
-
+                    sceneObject = new Scene();
+                    sceneObject.setSceneNumber(scene);
+                    System.out.println("szene Tag gefunden");
                     //Wenn sprecher tag gefunden speicher ihn ab
                 } else if (m4.find()) {
                     sprecherTag = m4.group(2);
+                    System.out.println("sprecher Tag gefunden");
                 }
 
 
                 //suche nach tabulatoren am anfang des textes = text des sprechers. wenn gefunden speicher sie im stringbuffer
             } else if (line.startsWith("\t")) {
                 tmp.append(line.replaceFirst("\t", "")).append("\n");
+                System.out.println("sprechertext gefunden");
 
-                //wenn close tag gefunden und es kein act oder szene endtag ist, dann dialog zu ende. speicher alle infos der szene in Monolog
-            } else if (m4.find() && m4.group(1).contains("/") && !m4.group(0).contains("ACT") && !m4.group(0).contains("SCENE")) {
+                //wenn close tag gefunden und es kein act oder szene endtag ist, dann dialog zu ende. speicher alle infos der szene in de.textmining.data.Monolog
+            } else if (m4.find() && m4.group(1).contains("/")) {
+                System.out.println("geschlossenen Tag gefunden");
 
-                Monolog mon = new Monolog();
 
-                speakers.putIfAbsent(sprecherTag, new Speaker(sprecherTag, work));
-                mon.setSprecher(speakers.get(sprecherTag));
+                if (!m4.group(0).contains("ACT") && !m4.group(0).contains("SCENE")) {
+                    System.out.println("monolog objekt erstellen");
+                    Monolog mon = new Monolog();
 
-                mon.setSceneName(sceneName);
-                mon.setSceneNumber(scene);
-                mon.setActName(actName);
-                mon.setActNumber(act);
-                mon.setMonologText(tmp.toString());
-                work.setWorkName(workName);
-                work.add(mon);
-                tmp.setLength(0);
+
+                    speakers.putIfAbsent(sprecherTag, new Speaker(sprecherTag, sceneObject));
+                    mon.setSprecher(speakers.get(sprecherTag));
+
+                    mon.setSceneName(sceneName);
+                    mon.setSceneNumber(scene);
+                    mon.setActName(actName);
+                    mon.setActNumber(act);
+                    mon.setMonologText(tmp.toString());
+
+                    sceneObject.add(mon);
+                    tmp.setLength(0);
+                }
+
+                if (m4.group(0).contains("SCENE")) {
+
+                    System.out.println("szene zu act hinzufügen");
+                    actObject.add(sceneObject);
+                }
+                if (m4.group(0).contains("ACT")) {
+                    System.out.println("akt zu work hinzufügen");
+
+                    work.add(actObject);
+                }
+
+
             }
 
         }

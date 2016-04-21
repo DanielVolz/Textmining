@@ -1,14 +1,16 @@
+package de.textmining.data;
+
 /**
  * Created by danielvolz on 14.04.16.
  */
 public class Speaker {
     private String name;
-    private Work work;
+    private Scene scene;
 
 
-    public Speaker(String name, Work work) {
+    public Speaker(String name, Scene scene) {
         this.name = name;
-        this.work = work;
+        this.scene = scene;
     }
 
     public String getName() {
@@ -21,25 +23,25 @@ public class Speaker {
     }
 
     public int getNumberOfMonologues() {
-        return work.getNumberOfMonologuesBySpeaker(this);
+        return scene.getNumberOfMonologuesBySpeaker(this);
     }
 
     public int getNurmberOfWords() {
-        return work.getWordsBySpeaker(this);
+        return scene.getWordsBySpeaker(this);
     }
 
-    public Work getWork() {
-        return work;
+    public Scene getScene() {
+        return scene;
     }
 
-    public void setWork(Work work) {
-        this.work = work;
+    public void setScene(Scene scene) {
+        this.scene = scene;
     }
     @Override
     public String toString() {
-        return "Speaker{" +
+        return "de.textmining.data.Speaker{" +
                 "name='" + name + '\'' +
-                ", work=" + work +
+                ", work=" + scene +
                 '}';
     }
 }

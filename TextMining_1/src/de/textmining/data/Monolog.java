@@ -1,3 +1,5 @@
+package de.textmining.data;
+
 /**
  * Created by danielvolz on 11.04.16.
  */
@@ -61,7 +63,7 @@ public class Monolog {
 
     @Override
     public String toString() {
-        return "Monolog " +
+        return "de.textmining.data.Monolog " +
                 ", actName='" + actName + '\'' +
                 ", sceneName='" + sceneName + '\'' +
                 "sprecher='" + sprecher + '\'' +

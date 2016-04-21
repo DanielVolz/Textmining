@@ -1,3 +1,5 @@
+package de.textmining.data;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -25,7 +27,7 @@ public class AllWorks {
     public List<Speaker> getAllSpeakers() {
         List<Speaker> res = new ArrayList<>();
         for (Work w: works) {
-            res.addAll(w.getSpeaker());
+            res.addAll(w.getAllSpeaker());
         }
         Collections.sort(res, (speaker1, speaker2)
                 -> speaker1.getNumberOfMonologues() - speaker2.getNumberOfMonologues()
